@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BlackJack</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                  colors: {
+                    rot: 'red',
+                  }
+                },
+                fontSize: {
+                    xs: '0.4rem',
+                    sm: '0.8rem',
+                    base: '1rem',
+                    xl: '1.25rem',
+                    '2xl': '1.563rem',
+                    '3xl': '1.953rem',
+                    '4xl': '2.441rem',
+                    '5xl': '3.052rem',
+                }
+              }
+            }
+          </script>
+    </head>
+
+        <body class="bg-green-900 min-h-screen flex items-center justify-center">
+
+            <!-- Main Blackjack Container -->
+            <div class="bg-green-700 p-6 rounded-lg shadow-lg text-white max-w-md w-full">
+        
+                <!-- Title -->
+                <h1 class="text-center text-4xl font-bold mb-8">Blackjack</h1>
+        
+                <!-- Dealer Section -->
+                <div class="mb-6">
+                    <h2 class="text-2xl mb-2">Geber</h2>
+                    <div id="geber-karten" class="flex gap-2">
+
+
+                        <!-- Dealer's cards will appear here -->
+
+                    </div>
+                    <p id="geber-punkte" class="mt-2">Punkte: ?</p>
+                </div>
+        
+                <!-- Player Section -->
+                <div class="mb-6">
+                    <h2 class="text-2xl mb-2">Spieler</h2>
+                    <div id="spieler-karten" class="flex gap-2">
+
+
+                        <!-- Player's cards will appear here -->
+
+
+                    </div>
+                    <p id="spieler-punkte" class="mt-2">Punkte: ?</p>
+                </div>
+        
+                <!-- Action Buttons -->
+                <div class="flex justify-center gap-4 mb-6">
+                    <button id="karte-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                        Karte
+                    </button>
+                    <button id="stand-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                        Stand
+                    </button>
+                </div>
+        
+                <!-- Game Messages -->
+                <div id="game-message" class="text-center text-lg font-semibold">
+                    <!-- Game status (win, lose, tie) will be displayed here -->
+                </div>
+        
+                <!-- Reset Button -->
+                <div class="text-center mt-6">
+                    <button id="neustart-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+                        Spiel neustarten
+                    </button>
+                </div>
+        
+            </div>
+
+
+
+
+        <script src="main.js" ></script>
+    </body>
+
+</html>

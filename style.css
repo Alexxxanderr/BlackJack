@@ -1,0 +1,11 @@
+/* In style.css */
+.chip-selected {
+    border: 4px solid white; /* Weißer Rand um den ausgewählten Chip */
+    transform: scale(1.1);   /* Leicht vergrößert, um die Auswahl visuell hervorzuheben */
+}
+
+.chip.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* Macht den Chip nicht anklickbar */
+}
+

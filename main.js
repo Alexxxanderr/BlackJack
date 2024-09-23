@@ -1,375 +1,180 @@
 "use strict"
 
+// In diesem Codeabschnitt läuft die Hauptlogik ab
+
 let karten = [];
 
-for (let y = 2; y < 15; y++){
-    karten.push("KA-0" + y);
-}
-for (let y = 2; y < 15; y++){
-    karten.push("KR-0" + y);
-}
-for (let y = 2; y < 15; y++){
-    karten.push("PI-0" + y);
-}
-for (let y = 2; y < 15; y++){
-    karten.push("HE-0" + y);
-}
+karten_generieren();
 
-function randomize (arr) 
-
-{
-    for (let i = arr.length - 1; i > 0; i--)
-    {
-        let j = Math.floor(Math.random() * (i + 1)); 
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    } 
-} 
-randomize (karten); 
-
-console.log(karten);
+let einsatz = 0;
 
 let geber_karten = ["★-0"];
 let spieler_karten = ["★-0"];
 let geber_summe = 0;
-
-const karten_ausgabe_geber = function(arg, g_oder_s){
-
-    geber_summe = 0;
-    let divs = document.querySelectorAll("#geber-karten .card");
-    divs.forEach( e => {
-        e.remove();
-    })
-
-    geber_karten.unshift(karten.pop());
-
-    if(arg.includes("★-0") && arg.length > 2){
-        let index = arg.indexOf("★-0");
-        arg.splice(index,1);
-        geber_karten.reverse();
-    }
-
-    arg.forEach(e => {
-        let split = e.split("-");
-        let gesplitet_1 = split[0];
-        let gesplitet_2 = split[1];
-        gesplitet_2 = Number(gesplitet_2);
-        let farbe;
-        let bg_farbe = "bg-white";
-        if(gesplitet_1.includes("HE") || gesplitet_1.includes("KA")){
-            farbe = "text-red-600";
-        } else if (gesplitet_1.includes("KR") || gesplitet_1.includes("PI")){
-            farbe = "text-black";
-        } else if (gesplitet_1.includes("★")){
-            bg_farbe = "bg-blue-600";
-        }
-        let typ;
-        switch (gesplitet_1) {
-            case "HE":
-                typ = "♥";
-                break;
-            case "PI":
-                typ = "♠";
-                break;
-            case "KR":
-                typ = "♣";
-                break;
-            case "KA":
-                typ = "♦";
-                break;
-            case "★":
-                typ = "★";
-                break;
-            default:
-                break;
-        }
-    
-        let zeichen = gesplitet_2;
-        switch (gesplitet_2) {
-            case 11:
-                zeichen = "B";
-                break;
-            case 12:
-                zeichen = "D";
-                break;
-            case 13:
-                zeichen = "K";
-                break;
-            case 14:
-                zeichen = "A";
-                break;
-            case "★":
-                typ = "★";
-                break;
-            default:
-                break;
-        }
-
-        let leer_zeichen;
-        if(gesplitet_2 !== 0) 
-            { leer_zeichen = `${zeichen} ${typ}`}
-        else {
-            leer_zeichen = ``;
-        };
-
-        let div_g_o_s_karten = document.querySelector(g_oder_s);
-        let karte = document.createElement("div");
-        karte.setAttribute("class", `card w-12 h-16 ${farbe} ${bg_farbe} border-2 border-gray-500 rounded-lg relative flex justify-center items-center text-base font-bold`);
-        karte.innerHTML = typ;
-        let div_1 = document.createElement("div");
-        div_1.setAttribute("class", "absolute top-1 left-1 text-sm");
-        div_1.innerHTML = leer_zeichen;
-        let div_2 = document.createElement("div");
-        div_2.setAttribute("class", "absolute bottom-1 right-1 text-sm rotate-180");
-        div_2.innerHTML = leer_zeichen;
-        karte.insertAdjacentElement("afterbegin", div_1);
-        karte.insertAdjacentElement("beforeend", div_2);
-        div_g_o_s_karten.insertAdjacentElement("afterbegin", karte);
-    });
-
-    const wert = function(e){
-        let split = e.split("-");
-        let value = Number(split[1]);
-    
-        if (value >= 11 && value <= 13) {
-            return 10;
-        } 
-        else if (value === 14) {
-            return 11;
-        } 
-        else {
-            return value;
-        }
-    }
-
-    let anzahlAsse = 0;
-
-    arg.forEach( e => {
-
-        let wert_e = wert(e);
-        if (wert_e === 11) {
-            anzahlAsse++;
-        }
-        geber_summe += wert_e;  
-    })
-
-    while (geber_summe > 21 && anzahlAsse > 0) {
-        geber_summe -= 10; 
-        anzahlAsse--;
-    }
-    document.querySelector("#geber-punkte").innerHTML = geber_summe;
-}
-
 let spieler_summe = 0;
 
-const karten_ausgabe_spieler = function(arg, g_oder_s){
-
-    spieler_summe = 0;
-    let divs = document.querySelectorAll("#spieler-karten .card");
-    divs.forEach( e => {
-        e.remove();
-    })
-
-    spieler_karten.unshift(karten.pop());
-    let index = arg.indexOf("★-0");
-    if(arg.includes("★-0")){
-        arg.splice(index,1);
-    }
-
-    arg.forEach(e => {
-        let split = e.split("-");
-        let gesplitet_1 = split[0];
-        let gesplitet_2 = split[1];
-        gesplitet_2 = Number(gesplitet_2);
-        let farbe;
-        let bg_farbe = "bg-white";
-        if(gesplitet_1.includes("HE") || gesplitet_1.includes("KA")){
-            farbe = "text-red-600";
-        } else if (gesplitet_1.includes("KR") || gesplitet_1.includes("PI")){
-            farbe = "text-black";
-        } else if (gesplitet_1.includes("★")){
-            bg_farbe = "bg-blue-600";
-        }
-        let typ;
-        switch (gesplitet_1) {
-            case "HE":
-                typ = "♥";
-                break;
-            case "PI":
-                typ = "♠";
-                break;
-            case "KR":
-                typ = "♣";
-                break;
-            case "KA":
-                typ = "♦";
-                break;
-            case "★":
-                typ = "★";
-                break;
-            default:
-                break;
-        }
-    
-        let zeichen = gesplitet_2;
-        switch (gesplitet_2) {
-            case 11:
-                zeichen = "B";
-                break;
-            case 12:
-                zeichen = "D";
-                break;
-            case 13:
-                zeichen = "K";
-                break;
-            case 14:
-                zeichen = "A";
-                break;
-            case "★":
-                typ = "★";
-                break;
-            default:
-                break;
-        }
-
-        let leer_zeichen;
-        if(gesplitet_2 !== 0) 
-            { leer_zeichen = `${zeichen} ${typ}`}
-        else {
-            leer_zeichen = ``;
-        };
-
-        let div_g_o_s_karten = document.querySelector(g_oder_s);
-        let karte = document.createElement("div");
-        karte.setAttribute("class", `card w-12 h-16 ${farbe} ${bg_farbe} border-2 border-gray-500 rounded-lg relative flex justify-center items-center text-base font-bold`);
-        karte.innerHTML = typ;
-        let div_1 = document.createElement("div");
-        div_1.setAttribute("class", "absolute top-1 left-1 text-sm");
-        div_1.innerHTML = leer_zeichen;
-        let div_2 = document.createElement("div");
-        div_2.setAttribute("class", "absolute bottom-1 right-1 text-sm rotate-180");
-        div_2.innerHTML = leer_zeichen;
-        karte.insertAdjacentElement("afterbegin", div_1);
-        karte.insertAdjacentElement("beforeend", div_2);
-        div_g_o_s_karten.insertAdjacentElement("afterbegin", karte);
-    });
-
-    const wert = function(e){
-        let split = e.split("-");
-        let value = Number(split[1]);
-    
-        if (value >= 11 && value <= 13) {
-            return 10;
-        } 
-        else if (value === 14) {
-            return 11;
-        } 
-        else {
-            return value;
-        }
-    }
-
-    let anzahlAsse = 0;
-
-    arg.forEach( e => {
-
-        let wert_e = wert(e);
-        if (wert_e === 11) {
-            anzahlAsse++;
-        }
-        spieler_summe += wert_e;  
-    })
-
-    while (spieler_summe > 21 && anzahlAsse > 0) {
-        spieler_summe -= 10;
-        anzahlAsse--;
-    }
-    document.querySelector("#spieler-punkte").innerHTML = spieler_summe;
-}
+// Mit diesem Aufruf werden die ersten umgedrehten Karten simuliert.
 
 erster_aufruf(geber_karten, "#geber-karten");
 erster_aufruf(spieler_karten, "#spieler-karten");
 
+// Dieser Code fügt einen "Klick"-Event-Listener zum "Karte"-Button hinzu, überprüft, 
+// ob der Einsatz gesetzt wurde, gibt dann Karten aus, aktualisiert den Spielstatus 
+// (ob gewonnen oder verloren), und deaktiviert Buttons sowie Chips basierend auf dem aktuellen Zustand des Spiels.
+
 document.querySelector("#karte-btn").addEventListener("click", e => {
 
-    document.querySelector("#game-message").innerHTML = "";
-    if(spieler_summe < 22){
-        karten_ausgabe_spieler(spieler_karten, "#spieler-karten");
+    if(punkte === 0){
+        document.querySelector("#game-message").innerHTML = "Du musst erst dein Einsatz wählen.";
+    } else {
+        if (spieler_karten.length !== 0) {
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.classList.add('disabled'); 
+            });
+        }
+        document.querySelector("#game-message").innerHTML = "";
+        if (spieler_karten.length === 1){
+            karten_ausgabe(spieler_karten, "#spieler-karten", false);
+            karten_ausgabe(geber_karten, "#geber-karten", true);  
+        }
+        karten_ausgabe(spieler_karten, "#spieler-karten", false);
+        
         if(spieler_summe > 21){
             document.querySelector("#game-message").innerHTML = "Schade, du hast verloren.";
             document.querySelector("#stand-btn").disabled = true;
+            document.querySelector("#karte-btn").disabled = true;
+            document.querySelector("#neustart-btn").disabled = false;
+            punktestand -= punkte;
+            document.querySelector(".punktestand").innerHTML = punktestand;
         }
-
+    
+        if(spieler_summe === 21 && spieler_karten.length === 2){
+            document.querySelector("#game-message").innerHTML =  "Black Jack! Du hast gewonnen.";
+            document.querySelector("#karte-btn").disabled = true;
+            document.querySelector("#stand-btn").disabled = true;
+            document.querySelector("#neustart-btn").disabled = false;
+            punktestand += (punkte * 2);
+            document.querySelector(".punktestand").innerHTML = punktestand;
+        }
     }
-    if(spieler_karten.length === 1){
-        karten_ausgabe_geber(geber_karten, "#geber-karten");
-        karten_ausgabe_spieler(spieler_karten, "#spieler-karten");
-    }
-    if(spieler_summe === 21 && spieler_karten.length === 2){
-        document.querySelector("#game-message").innerHTML =  "Black Jack! Du hast gewonnen.";
-        document.querySelector("#karte-btn").disabled = true;
+    if(spieler_karten.length === 0){
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.classList.add('disabled');
+        });
     }
 })
 
+// Dieser Code fügt einen "Klick"-Event-Listener zum "Stand"-Button hinzu, 
+// um die Spielrunde zu beenden, den Geber weitere Karten ziehen zu lassen 
+// und das Spielergebnis zu prüfen, während entsprechende Buttons deaktiviert werden.
+
 document.querySelector("#stand-btn").addEventListener("click", e => {
+
+    document.querySelector("#karte-btn").disabled = true;
+    document.querySelector("#neustart-btn").disabled = true;
     if(spieler_karten.length < 2){
         document.querySelector("#game-message").innerHTML = "Du musst zuerst Karten geben lassen.";
+        document.querySelector("#karte-btn").disabled = false;
     }else {
-        document.querySelector("#karte-btn").disabled = true;
-        if(geber_summe < 22){{
-            let i = 0;console.log(i);
-            while (geber_summe < 18){
-                karten_ausgabe_geber(geber_karten, "#geber-karten"); 
-                i++;
-                setTimeout(() => {
-                      console.log(i);
-                }, 1000);              
+        const disablen = function(){ return document.querySelector("#neustart-btn").disabled = false;}
+        const karte_ziehen = () => {
+            if (geber_summe < 17){
+                karten_ausgabe(geber_karten, "#geber-karten", true);  
+                if(geber_summe >= 17 || geber_summe > 21){
+                    clearInterval(interval);
+                    setTimeout(pruefe_spielergebnis,1250);
+                    setTimeout(disablen,3000);
+                }      
+            } else {
+                setTimeout(pruefe_spielergebnis,1250);
+                setTimeout(disablen,3000);
+                clearInterval(interval);
             }
+        }
+
+
+        let interval = setInterval(karte_ziehen, 1000);
+        const pruefe_spielergebnis = () => {
             if(geber_summe > 21){
                 document.querySelector("#game-message").innerHTML = "Ich gratuliere dir, du hast gewonnen.";
+                punktestand += (punkte * 2);
+                document.querySelector(".punktestand").innerHTML = punktestand;
             } else if (geber_summe === 21 && geber_karten.length === 2){
                 document.querySelector("#game-message").innerHTML ="Black Jack für Geber! Du hast verloren.";
+                punktestand -= punkte;
+                document.querySelector(".punktestand").innerHTML = punktestand;
             } else if (geber_summe === spieler_summe){
                 document.querySelector("#game-message").innerHTML = "Unentschieden.";
+                punktestand = punktestand;
+                document.querySelector(".punktestand").innerHTML = punktestand;
             } else if (geber_summe > spieler_summe){
                 document.querySelector("#game-message").innerHTML = "Schade, du hast verloren.";
                 document.querySelector("#stand-btn").disabled = true;
+                punktestand -= punkte;
+                document.querySelector(".punktestand").innerHTML = punktestand;
             } else if (geber_summe < spieler_summe){
                 document.querySelector("#game-message").innerHTML = "Ich gratuliere dir, du hast gewonnen.";
                 document.querySelector("#stand-btn").disabled = true;
+                punktestand += (punkte * 2);
+                document.querySelector(".punktestand").innerHTML = punktestand;
             }
-        }}
+        }
     }
 ;})
 
+// Dieser Code fügt einen "Klick"-Event-Listener zum "Neustart"-Button hinzu, 
+// der das Spiel zurücksetzt, indem Chips aktiviert, Karten zurückgesetzt und 
+// neue Karten für den Spieler und den Geber generiert werden.
+
 document.querySelector("#neustart-btn").addEventListener("click", e => {
-    neu_starten();
+    document.querySelectorAll('.chip').forEach(chip => {
+        chip.classList.remove('disabled'); 
+    });
+    document.querySelectorAll('.chip').forEach(c => {
+        c.classList.remove('chip-selected');
+    });
+    
+    punkte = 0;
+    karten = [];
+    karten_generieren();
+    document.querySelector("#geber-punkte").innerHTML = "Punkte: 0";
+    document.querySelector("#spieler-punkte").innerHTML = "Punkte: 0";
+    document.querySelector("#game-message").innerHTML = "";
+    neu_starten("#geber-karten");
+    neu_starten("#spieler-karten");
+    document.querySelector("#karte-btn").disabled = false;
+    document.querySelector("#stand-btn").disabled = false;
+    geber_karten =  ["★-0"];
+    spieler_karten =  ["★-0"];
+    spieler_summe = 0;
+    geber_summe = 0;
+    karten_ausgabe(spieler_karten, "#spieler-karten", false);
+    karten_ausgabe(geber_karten, "#geber-karten", true);
+    document.querySelector("#neustart-btn").disabled = true; 
+    console.log(karten);
 })
 
+// Diese Funktion entfernt alle Karten-Div-Elemente innerhalb eines angegebenen 
+// Bereichs (für den Geber oder den Spieler), um das Spielfeld zurückzusetzen.
 
+function neu_starten(g_oder_s){
+    let divs = document.querySelectorAll(g_oder_s + " .card");
 
-function erster_aufruf(arg, g_oder_s){
-    arg.forEach(e => {
-        let split = e.split("-");
-        let gesplitet_2 = split[1];
-        gesplitet_2 = Number(gesplitet_2);
-
-        let div_g_o_s_karten = document.querySelector(g_oder_s);
-        let karte = document.createElement("div");
-        karte.setAttribute("class", `card w-12 h-16 text-white bg-blue-600 border-2 border-gray-500 rounded-lg relative flex justify-center items-center text-2xl font-bold`);
-        karte.innerHTML = "★";
-        let div_1 = document.createElement("div");
-        div_1.setAttribute("class", "absolute top-1 left-1 text-xs");
-        div_1.innerHTML = "";
-        let div_2 = document.createElement("div");
-        div_2.setAttribute("class", "absolute bottom-1 right-1 text-xs rotate-180");
-        div_2.innerHTML = "";
-        karte.insertAdjacentElement("afterbegin", div_1);
-        karte.insertAdjacentElement("beforeend", div_2);
-        div_g_o_s_karten.insertAdjacentElement("afterbegin", karte);
-    });
+    divs.forEach( e => {
+        e.remove();
+    })
 }
 
+// Dieser Code fragt den Benutzer mittels einer Bestätigungsabfrage, 
+// ob er den Punktestand auf 2000 zurücksetzen möchte, und lädt die Seite neu, wenn die Bestätigung erfolgt.
 
-function neu_starten(){
+document.querySelector("#auf_null-btn").addEventListener("click", e => {
+    let text = "Bist du sicher, dass du auf auffüllen möchtest?";
+    if (confirm(text) == true) {
+        auf_2000();
+    } 
+})
+
+function auf_2000(){
     location.reload();
 }

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>BlackJack</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <script>
             tailwind.config = {
               theme: {
@@ -31,38 +32,54 @@
 
         <body class="bg-green-900 min-h-screen flex items-center justify-center">
 
-            <!-- Main Blackjack Container -->
+            <!-- Haupt-Blackjack-Container -->
             <div class="bg-green-700 p-6 rounded-lg shadow-lg text-white max-w-md w-full">
         
-                <!-- Title -->
+                <!-- Titel -->
                 <h1 class="text-center text-4xl font-bold mb-8">Blackjack</h1>
         
-                <!-- Dealer Section -->
+                <!-- Geber-Bereich -->
                 <div class="mb-6">
                     <h2 class="text-2xl mb-2">Geber</h2>
                     <div id="geber-karten" class="flex gap-2">
-
-
-                        <!-- Dealer's cards will appear here -->
-
+                        <!-- Die Karten des Gebers werden hier erscheinen -->
                     </div>
-                    <p id="geber-punkte" class="mt-2">Punkte: ?</p>
+                    <p id="geber-punkte" class="mt-2">Punkte: 0</p>
                 </div>
         
-                <!-- Player Section -->
+                <!-- Spieler-Bereich -->
                 <div class="mb-6">
                     <h2 class="text-2xl mb-2">Spieler</h2>
                     <div id="spieler-karten" class="flex gap-2">
-
-
-                        <!-- Player's cards will appear here -->
-
-
+                        <!-- Die Karten des Spielers werden hier erscheinen -->
                     </div>
-                    <p id="spieler-punkte" class="mt-2">Punkte: ?</p>
+                    <p id="spieler-punkte" class="mt-2">Punkte: 0</p>
                 </div>
-        
-                <!-- Action Buttons -->
+                <!-- Einsatzchips-Bereich (vor dem Reset-Button) -->
+                <div class="flex justify-center gap-4 mb-6 ">
+                    <!-- Chip 10 -->
+                    <button class="chip bg-red-500 text-white w-12 h-12 rounded-full font-bold text-lg flex items-center justify-center" data-punkte="10">
+                        10
+                    </button>
+                    <!-- Chip 25 -->
+                    <button class="chip bg-blue-500 text-white w-12 h-12 rounded-full font-bold text-lg flex items-center justify-center" data-punkte="25">
+                        25
+                    </button>
+                    <!-- Chip 50 -->
+                    <button class="chip bg-green-500 text-white w-12 h-12 rounded-full font-bold text-lg flex items-center justify-center" data-punkte="50">
+                        50
+                    </button>
+                    <!-- Chip 100 -->
+                    <button class="chip bg-yellow-500 text-white w-12 h-12 rounded-full font-bold text-lg flex items-center justify-center" data-punkte="100">
+                        100
+                    </button>
+                    <div class="pl-6 ">
+                        <img class="w-6 h-6 " src="punktestand.png" alt="Punktestand">
+                        <p class="punktestand">2000</p>
+                    </div>
+                    
+                </div>
+                <!-- Aktions-Buttons -->
                 <div class="flex justify-center gap-4 mb-6">
                     <button id="karte-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                         Karte
@@ -71,25 +88,26 @@
                         Stand
                     </button>
                 </div>
-        
-                <!-- Game Messages -->
+                <!-- Spielnachrichten -->
                 <div id="game-message" class="text-center text-lg font-semibold">
-                    <!-- Game status (win, lose, tie) will be displayed here -->
+                    <!-- Der Spielstatus (Sieg, Niederlage, Unentschieden) wird hier angezeigt -->
                 </div>
-        
-                <!-- Reset Button -->
+                <!-- Reset-Button -->
                 <div class="text-center mt-6">
                     <button id="neustart-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-                        Spiel neustarten
+                        Neues Spiel
+                    </button>
+                    <button id="auf_null-btn" class="bg-yellow-500 hover:bg--600 text-white font-bold py-2 px-4 rounded">
+                        Chips auffüllen
                     </button>
                 </div>
-        
             </div>
 
-
-
-
-        <script src="main.js" ></script>
+        <script src="erster_aufruf.js" defer></script>
+        <script src="karten.js" defer></script>
+        <script src="ausgabe_karte.js" defer></script>
+        <script src="einsaetze.js" defer></script>
+        <script src="main.js" defer></script>
     </body>
 
 </html>

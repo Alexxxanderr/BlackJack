@@ -69,13 +69,17 @@ document.querySelector("#karte-btn").addEventListener("click", e => {
 // und das Spielergebnis zu prüfen, während entsprechende Buttons deaktiviert werden.
 
 document.querySelector("#stand-btn").addEventListener("click", e => {
-
+ console.log(spieler_karten);
+ console.log(spieler_karten.includes("★-0"))
     document.querySelector("#karte-btn").disabled = true;
     document.querySelector("#neustart-btn").disabled = true;
     if(spieler_karten.length < 2){
         document.querySelector("#game-message").innerHTML = "Du musst zuerst Karten geben lassen.";
         document.querySelector("#karte-btn").disabled = false;
-    }else {
+    } else if(spieler_karten.includes("★-0") === true){
+        document.querySelector("#game-message").innerHTML = "Du musst mindestens 2 Karten geben lassen.";
+        document.querySelector("#karte-btn").disabled = false;
+    } else {
         const disablen = function(){ return document.querySelector("#neustart-btn").disabled = false;}
         const karte_ziehen = () => {
             if (geber_summe < 17){
@@ -133,7 +137,6 @@ document.querySelector("#neustart-btn").addEventListener("click", e => {
     document.querySelectorAll('.chip').forEach(c => {
         c.classList.remove('chip-selected');
     });
-    
     punkte = 0;
     karten = [];
     karten_generieren();
@@ -169,12 +172,7 @@ function neu_starten(g_oder_s){
 // ob er den Punktestand auf 2000 zurücksetzen möchte, und lädt die Seite neu, wenn die Bestätigung erfolgt.
 
 document.querySelector("#auf_null-btn").addEventListener("click", e => {
-    let text = "Bist du sicher, dass du auf auffüllen möchtest?";
-    if (confirm(text) == true) {
-        auf_2000();
+    if (confirm("Bist du sicher, dass du auf auffüllen möchtest?") == true) {
+        location.reload();;
     } 
 })
-
-function auf_2000(){
-    location.reload();
-}
